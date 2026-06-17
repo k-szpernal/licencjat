@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Przetwarzanie zamówienia...</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Przetwarzamy twoje zamówienia</p>
+                </div>
+            </div>
+        </header>
+        <br/>
+        <br/> <br/>
+         <div class="container">
+            <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                                Podsumowanie zamówienia
+                            </div>
+                            <div class="card-body">
+                                {% for produkt in koszyk_produkty %}
+                                    {{ produkt.nazwa }}: 
+                                        {% if produkt.czy_promocja %}
+                                            {{ produkt.promocja_cena }}zł
+                                        {% else %}
+                                            {{ produkt.cena }}zł
+                                        {% endif %}
+                                        <br/>
+                                       <small> Ilość: 
+                                        {% for key, value in quantities.items %}
+                                            {% if key == produkt.id|slugify %}
+                                                  {{ value }}
+                                            {% endif %}
+
+                                        {% endfor %} </small>
+                                        <br/> <br/>
+                                {% endfor %}
+                                <strong>Całkowity koszt: {{ totals }}zł</strong>
+                                <br/><br/>
+                                <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-primary">Zmień ilość produktów</a>
+                            </div>
+                        </div>
+                        <br/> <br/>
+<div class="card">
+  <div class="card-header">
+    Dane do wysyłki
+  </div>
+  <div class="card-body">
+    
+    <strong>Imię i nazwisko: </strong>{{ shipping_info.wysylka_imie_nazwisko }} <br/>
+    <strong>Email: </strong>{{ shipping_info.wysylka_email }} <br/>
+    <strong>Adres 1: </strong>{{ shipping_info.wysylka_adres1 }} <br/>
+    <strong>Adres 2: </strong>{{ shipping_info.wysylka_adres2 }} <br/>
+    <strong>Miejscowość: </strong>{{ shipping_info.wysylka_miasto }} <br/>
+    <strong>Województwo: </strong>{{ shipping_info.wysylka_wojewodztwo }} <br/>
+    <strong>Kod pocztowy: </strong>{{ shipping_info.wysylka_kod_pocztowy }} <br/>
+    <strong>Kraj: </strong>{{ shipping_info.wysylka_kraj }} <br/> <br/>
+    <a href="{% url 'checkout' %}" class="btn btn-outline-primary">Zmień dane do wysyłki</a>
+  </div>
+</div>
+<br/> <br/>
+<div class="card">
+<div class="card-header">
+    Adres rozliczniowy
+  </div>
+  <div class="card-body">
+    <form method="POST" action="{% url 'process_order' %}">
+        {% csrf_token %}
+    {{ billing_form.as_p }}
+   
+  </div>
+</div>
+<br/> <br/>
+
+
+<button type="submit" class="btn btn-success">Kup teraz</button>
+<br/> <br/>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+{% endblock %}

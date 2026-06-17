@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header-->
+        
+
+        <div class="container">
+        	<div class="row">
+        		<center>
+        			<div class="col-8">
+        				<br/><br/>
+<div class="card">
+  <div class="card-header">
+    Zamowienie {{ zamowienie.id}} - {{zamowienie.koszt}}zł
+  </div>
+  <div class="card-body">
+    Email: {{ zamowienie.email}}<br/>
+    {% if zamowienie.data_wyslania %}
+      Data wysłania: {{ zamowienie.data_wyslania }}
+    {% else %}
+     Data zamówienia: {{ zamowienie.data_zamowienia}}
+    {% endif %}
+    <br/><br/>
+    {{ zamowienie.imie_nazwisko }}<br/>
+    <pre>{{ zamowienie.wysylka_adres }}
+    </pre>
+    {% for item in items %}
+      {{ item.produkt }} - {{ item.ilosc }} - {{ item.cena }} zł<br/>
+
+    {% endfor %}
+    <br/><br/>
+    {% if not zamowienie.wyslane %}
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="shipping_status" value="true">
+      <button type="Submit" class="btn btn-success">Oznacz jako wysłane</button>
+    </form>
+
+    {% else %}
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="shipping_status" value="false">
+      <button type="Submit" class="btn btn-danger">Oznacz jako niewysłane</button>
+    </form>
+
+    {% endif %}
+
+  </div>
+</div>
+<br/>
+
+<br/><br/>
+        			</div>
+        		</center>
+        	</div>
+        </div>
+
+{% endblock %}

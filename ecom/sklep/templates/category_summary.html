@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Kategorie</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Wybierz kategorię produktu</p>
+                </div>
+            </div>
+        </header>
+
+
+        <div class="container">
+        	<div class="row">
+        		<center>
+        			<div class="col-6">
+                        </br> </br>
+                        {% for kategoria in kategorie %}
+                        <h3><a href="{% url 'category' kategoria %}" style=" background:#1c4780; color:#ffffff; font-size:15px;padding:8px 12px; border-radius:3px;moz-border-radius:3px;-webkit-border-radius:3px;text-decoration:none; display: block;"> 
+
+                                {{kategoria }}
+                                
+                        </a></h3>
+                        {% endfor %}
+                        </br> </br></br> </br></br> </br></br> </br></br> </br></br> </br>
+        			</div>
+        		</center>
+        	</div>
+        </div>
+
+
+{% endblock %}

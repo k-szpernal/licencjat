@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header-->
+        
+
+        <div class="container">
+            <div class="row">
+                <center>
+                    <div class="col-8">
+                        <br/><br/>
+<h3>Niewysłane zamówienia</h3>
+<table class="table table-striped table-hover table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">Zamówienie</th>
+      <th scope="col">Koszt</th>
+      <th scope="col">Email</th>
+      <th scope="col">Data zamówienia</th>
+      <th scope="col">Wysłane</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in zamowienia %}
+    <tr>
+      <td><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
+      <td>{{ item.koszt }}zł</td>
+      <td>{{ item.email }}</td>
+      <td>{{ item.data_zamowienia }}</td>
+      <td>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="shipping_status" value="true">
+          <input type="hidden" name="num" value={{item.id}}>
+          <button type="Submit" class="btn btn-success btn-sm">Oznacz jako wysłane</button>
+        </form>
+
+
+      </td>
+    </tr>
+    {% endfor %}
+  
+    
+  </tbody>
+</table>
+
+
+
+<br/><br/>
+<br/><br/>
+                    </div>
+                </center>
+            </div>
+        </div>
+
+{% endblock %}
